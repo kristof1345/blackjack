@@ -22,6 +22,21 @@ func (h Hand) DealerString() string {
 	return h[0].String() + ", **HIDDEN**"
 }
 
+func (h Hand) MinScore() int {
+	score := 0
+	for _, c := range h {
+		score += min(int(c.Rank), 10)
+	}
+	return score
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func main() {
 	deck := cards.New(cards.Deck(3), cards.Shuffle)
 	var card cards.Card
@@ -45,8 +60,8 @@ func main() {
 		}
 	}
 	fmt.Println("==FINAL HANDS==")
-	fmt.Println("Player:", player)
-	fmt.Println("Dealer:", dealer)
+	fmt.Println("Player:", player, "\nScore:", player.MinScore())
+	fmt.Println("Dealer:", dealer, "\nScore:", dealer.MinScore())
 }
 
 func draw(deck []cards.Card) (cards.Card, []cards.Card) {
